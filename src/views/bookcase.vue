@@ -1,15 +1,32 @@
 <template>
+<div>
     <h1>My Bookcase</h1>
-    <h2>Subtitle</h2>
-    <p>This is a paragraph</p>
+   <div v-for="book in books" :key="book.key">
+        <div> {{ book.title }} </div>
+   </div>
+   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, Ref, ref } from 'vue'
+import { Work } from '../models/books';
+import bookApi from "../http/bookapi";
 
 export default defineComponent({
     setup() {
 
+const books: Ref<Work[]> = ref([]);
+
+async function load(category: string) {
+const result = await bookApi(category);
+
+if (result) books.value = result;
+
+}
+
+return {
+    books
+};
     },
 })
 
