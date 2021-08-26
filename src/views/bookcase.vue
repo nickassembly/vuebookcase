@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref } from 'vue'
+import { defineComponent, onMounted, Ref, ref } from 'vue'
 import { Work } from '../models/books';
 import bookApi from "../http/bookapi";
 
@@ -17,11 +17,12 @@ export default defineComponent({
 
 const books: Ref<Work[]> = ref([]);
 
+onMounted(async () => await load("science_fiction"));
+
 async function load(category: string) {
 const result = await bookApi(category);
 
 if (result) books.value = result;
-
 }
 
 return {
