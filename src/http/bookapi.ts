@@ -11,6 +11,3 @@ if(result.status === 200){
 return undefined;
 
 }
-
-// TODO get better extensions
-// verify code to find issue with promise

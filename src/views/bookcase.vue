@@ -1,8 +1,15 @@
 <template>
 <div>
     <h1>My Bookcase</h1>
-   <div v-for="book in books" :key="book.key">
-        <div> {{ book.title }} </div>
+    <div class="flex flex-wrap">
+   <div v-for="book in books" :key="book.key" class="book-item">
+     
+         <img :src="`//covers.openlibrary.org/b/id/${book.cover_id}-M.jpg`" 
+              :alt="book.title" />
+         <div class="text-lg">{{ book.title }}</div>
+         <div class="text-md">{{ book.authors[0].name }}</div>
+   
+   </div>
    </div>
    </div>
 </template>
@@ -31,4 +38,6 @@ return {
     },
 })
 
+// TODO get better extensions
+// verify code to find issue with promise
 </script>
