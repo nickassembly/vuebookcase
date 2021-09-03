@@ -14,14 +14,39 @@ state: {
 mutations: {
     setBookList(state, list: Array<Work>) {
         state.bookList = list;
+    },
+    addToShelf(state, book) {
+        state.shelf.push(book);
+    },
+    setError(state, error: string) {
+        state.error = error;
+    },
+    setIsBusy(state) {
+        state.isBusy = true;
+    },
+    clearIsBusy(state) {
+        state.isBusy = false;
     }
 
 },
 
 actions: {
-    async loadBookList(context, category: string) {
-    const results = await loadBooksByCategory(category);
-      if (results) context.commit("setBookList", results)
+     addBookToShelf({ commit }, book: Work) {
+        commit("addToShelf", book);
+    },
+    async loadBookList({ commit }, category: string) {     
+        commit("setError", "");
+        commit("setIsBusy");
+
+        try {
+           const results = await loadBooksByCategory(category);
+           if (results) commit("setBookList", results);
+           else commit("setError", "Failed to load any books.");
+        } catch (error) {
+         commit("setError", "Exception thrown while getting books.");
+        } finally {
+         commit("clearIsBusy");
+        }
     }
 }
 
