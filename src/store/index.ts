@@ -15,18 +15,14 @@ mutations: {
     setBookList(state, list: Array<Work>) {
         state.bookList = list;
     },
+
     addToShelf(state, book) {
-        state.shelf.push(book);
+     if (!state.shelf.find(b => b.key === book.key)) state.shelf.push(book);
     },
-    setError(state, error: string) {
-        state.error = error;
-    },
-    setIsBusy(state) {
-        state.isBusy = true;
-    },
-    clearIsBusy(state) {
-        state.isBusy = false;
-    }
+
+    setError : (state, error: string) => state.error = error,
+    setIsBusy : (state) => state.isBusy = true,
+    clearIsBusy : (state) => state.isBusy = false
 
 },
 

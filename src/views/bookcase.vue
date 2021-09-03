@@ -15,7 +15,7 @@
               :alt="book.title" />
          <div class="text-lg">{{ book.title }}</div>
          <div class="text-md">{{ book.authors[0].name }}</div>
-         <div><button @click="add(book)">Add to Shelf </button></div>
+         <div><button @click="add(book)" :disabled="bookOnShelf(book)">Add to Shelf </button></div>
    
    </div>
    </div>
@@ -49,7 +49,11 @@ await store.dispatch("loadBookList", category);
 }
 
 function add(book : Work)  {
-store.commit("addBookToShelf", book);
+store.dispatch("addBookToShelf", book);
+}
+
+function bookOnShelf(book: Work) {
+    return store.state.shelf.find(b => b.key === book.key);
 }
 
 return {
@@ -58,7 +62,8 @@ return {
     load,
     currentCategory,
     add,
-    shelfSize
+    shelfSize,
+    bookOnShelf
 };
     },
 })
