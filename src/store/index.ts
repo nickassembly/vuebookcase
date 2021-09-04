@@ -7,6 +7,7 @@ state: {
     bookList: new Array<Work>(),
     shelf: new Array<Work>(),
     isBusy: false,
+    currentCategory: "science_fiction",
     error: ""
 
 },
@@ -19,7 +20,7 @@ mutations: {
     addToShelf(state, book) {
      if (!state.shelf.find(b => b.key === book.key)) state.shelf.push(book);
     },
-
+    setCurrentCategory : (state, category) => state.currentCategory = category,
     setError : (state, error: string) => state.error = error,
     setIsBusy : (state) => state.isBusy = true,
     clearIsBusy : (state) => state.isBusy = false
@@ -30,9 +31,12 @@ actions: {
      addBookToShelf({ commit }, book: Work) {
         commit("addToShelf", book);
     },
-    async loadBookList({ commit }, category: string) {     
-        commit("setError", "");
-        commit("setIsBusy");
+    async loadBookList({ state, commit }, category: string) {     
+        if (state.currentCategory !== category || (state.bookList.length === 0))
+        {
+            commit("setCurrentCategory", category);
+            commit("setError", "");
+            commit("setIsBusy");
 
         try {
            const results = await loadBooksByCategory(category);
@@ -43,6 +47,7 @@ actions: {
         } finally {
          commit("clearIsBusy");
         }
+    }
     }
 }
 
