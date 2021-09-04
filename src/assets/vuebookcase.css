@@ -5,8 +5,12 @@
     @apply border border-solid border-yellow-600 text-center w-48 m-2 p-2 hover:bg-gray-300 rounded;
 }
 
-a.btn {
+.btn {
     @apply bg-blue-800 text-white p-2 rounded no-underline;
+}
+
+a.btn {
+    @apply no-underline;
 }
 
 @tailwind utilities;

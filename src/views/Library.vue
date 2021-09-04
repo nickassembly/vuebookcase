@@ -1,5 +1,5 @@
 <template>
- <h1>My Bookcase</h1>
+ <h1>Find Book</h1>
 <div>
 <div>
 <label for="category" > Book Categories </label>
@@ -10,12 +10,8 @@
    <div> Shelf Size: {{ shelfSize }} </div>
     <div class="flex flex-wrap">
    <div v-for="book in books" :key="book.key" class="book-item">
-     
-         <img :src="`//covers.openlibrary.org/b/id/${book.cover_id}-M.jpg`" 
-              :alt="book.title" />
-         <div class="text-lg">{{ book.title }}</div>
-         <div class="text-md">{{ book.authors[0].name }}</div>
-         <div><button @click="add(book)" :disabled="bookOnShelf(book)">Add to Shelf </button></div>
+     <Book :book="book"></Book>
+    <div><button class="btn" @click="add(book)" :disabled="bookOnShelf(book)">Add to Shelf </button></div>
    
    </div>
    </div>
@@ -25,22 +21,27 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
 import { Work } from '../models/books';
+import Book from '../components/Book.vue';
 import store from '../store';
 
 export default defineComponent({
+    components: {
+        Book
+    },
+
     setup() {
 
-const books = computed(() => store.state.bookList);
-const shelfSize = computed(() => store.state.shelf.length);
+    const books = computed(() => store.state.bookList);
+    const shelfSize = computed(() => store.state.shelf.length);
 
-const categories = [
-    { id: "science_fiction", name: "Science Fiction" },
-    { id: "biography", name: "Biography" },
-    { id: "science", name: "Science" },
-    { id: "technology", name: "Technology" },
-    ];
+    const categories = [
+        { id: "science_fiction", name: "Science Fiction" },
+        { id: "biography", name: "Biography" },
+        { id: "science", name: "Science" },
+        { id: "technology", name: "Technology" },
+        ];
 
- const currentCategory = ref(store.state.currentCategory);
+    const currentCategory = ref(store.state.currentCategory);
 
 onMounted(async () => await load());
 

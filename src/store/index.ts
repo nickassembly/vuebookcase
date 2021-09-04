@@ -20,6 +20,10 @@ mutations: {
     addToShelf(state, book) {
      if (!state.shelf.find(b => b.key === book.key)) state.shelf.push(book);
     },
+    removeFromShelf(state, book) {
+        const index = state.shelf.findIndex(b => b.key === book.key);
+        if (index > -1) state.shelf.splice(index, 1);
+    },
     setCurrentCategory : (state, category) => state.currentCategory = category,
     setError : (state, error: string) => state.error = error,
     setIsBusy : (state) => state.isBusy = true,
@@ -30,6 +34,9 @@ mutations: {
 actions: {
      addBookToShelf({ commit }, book: Work) {
         commit("addToShelf", book);
+    },
+    removeBookFromShelf({ commit }, book: Work) {
+        commit("removeFromShelf", book);
     },
     async loadBookList({ state, commit }, category: string) {     
         if (state.currentCategory !== category || (state.bookList.length === 0))
