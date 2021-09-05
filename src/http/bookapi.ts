@@ -11,3 +11,13 @@ if(result.status === 200){
 return undefined;
 
 }
+
+export async function loadShelf() {
+    const url = "http://localhost:5000/shelf";
+    const result = await axios.get<String[]>(url);
+
+    if(result.status === 200) {
+        return result.data;
+    }
+    return undefined;
+}
