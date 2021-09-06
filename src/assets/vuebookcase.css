@@ -6,7 +6,11 @@
 }
 
 .btn {
-    @apply bg-blue-800 text-white p-2 rounded no-underline;
+    @apply bg-blue-800 text-white p-2 rounded;
+}
+
+.btn[disabled] {
+    @apply bg-gray-200 text-black p-2 rounded;
 }
 
 a.btn {

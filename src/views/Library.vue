@@ -1,21 +1,20 @@
 <template>
- <h1>Find Book</h1>
-<div>
-<div>
-<label for="category" > Book Categories </label>
-<select id="categories" @change="load()" v-model="currentCategory">
-   <option v-for="c in categories" :key="c.id" :value="c.id">{{ c.name }}</option>
-</select>
-</div>
-   <div> Shelf Size: {{ shelfSize }} </div>
-    <div class="flex flex-wrap">
-   <div v-for="book in books" :key="book.key" class="book-item">
-     <Book :book="book"></Book>
-    <div><button class="btn" @click="add(book)" :disabled="bookOnShelf(book)">Add to Shelf </button></div>
-   
-   </div>
-   </div>
-   </div>
+    <h1>Find Book</h1>
+    <div>
+            <div>
+                <label for="category" > Book Categories </label>
+                <select id="categories" @change="load()" v-model="currentCategory">
+                <option v-for="c in categories" :key="c.id" :value="c.id">{{ c.name }}</option>
+                </select>
+            </div>
+            <div> Shelf Size: {{ shelfSize }} </div>
+                <div class="flex flex-wrap">
+                <div v-for="book in books" :key="book.key" class="book-item">
+                <Book :book="book"></Book>
+                <div><button class="btn" @click="add(book)" :disabled="bookOnShelf(book)">Add to Shelf </button></div>  
+            </div>
+            </div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -54,7 +53,8 @@ store.dispatch("addBookToShelf", book);
 }
 
 function bookOnShelf(book: Work) {
-    return store.state.shelf.find(b => b.key === book.key);
+   const result = store.state.shelf.findIndex(b => b.key == book.key);
+   return result > -1;
 }
 
 return {

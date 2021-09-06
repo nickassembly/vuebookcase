@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { loadBooksByCategory, loadShelf } from '../http/bookapi';
+import { loadBooksByCategory, loadShelf, loadWork } from '../http/bookapi';
 import { Work } from '../models/books';
 
 export default createStore ({
@@ -45,7 +45,12 @@ actions: {
         try {
             const results = await loadShelf();
             if (results) {
-                //
+                for (let x = 0; x < results.length; ++x) {
+                    const workResult = await loadWork(results[x]);
+                    if (workResult) {
+                        commit("addToShelf", workResult);
+                    }
+                }
             }
              else commit("setError", "Failed to load the shelf.");
          } catch (error) {
